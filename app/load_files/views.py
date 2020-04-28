@@ -1,13 +1,40 @@
 from datetime import datetime, timedelta
 
-from flask import redirect, url_for, flash, request, render_template, make_response
+from flask import redirect, url_for, flash, request, render_template, make_response, jsonify
 from werkzeug.datastructures import CombinedMultiDict
 
 from app import global_data
 from . import load_files
-from .forms import UploadForm
 from . import utils as load_files_utils
+from .forms import UploadForm
 
+
+@load_files.route('/search', methods=['GET'])
+def search():
+    location = request.args.get('location')
+    if(location == 'MDE'):
+        r = make_response(jsonify(
+            id="ID",
+            thumbnail="URL",
+            location={
+                "name":"Medellin",
+                "code":"MDE",
+                "latitude":"",
+                "longitude":""
+            },
+            price="",
+            currency="COP",
+            property_name="NAME",
+            rating=0.0,
+            agency={
+                "name":"Nutibara",
+                "id":"1234"
+            }
+        ))
+    else:
+        r = make_response(jsonify())
+    r.mimetype = 'application/json'
+    return r
 
 @load_files.route('/load_account_files', methods=['GET', 'POST'])
 def load_account_files():

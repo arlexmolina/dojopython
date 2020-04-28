@@ -11,7 +11,7 @@ setup(
         'flask_sqlalchemy',
         'flask_login',
         'flask_wtf',
-        'pandas',
+        'pandas==0.25.0',
         'plotly==3.10.0',
         'scipy',
         'PyMySQL',

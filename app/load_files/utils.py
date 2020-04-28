@@ -94,6 +94,11 @@ def process_balances_file(balances_file, file_type='monthly', selected_date=None
         transform_month_data_frame(balances_df)
         duplicate_rows_df = balances_df[balances_df.duplicated(['account_id'])]
 
+
+        print('************************ duplicate_rows_df')
+        print(duplicate_rows_df)
+
+
         if not duplicate_rows_df.empty:
             duplicate = balances_df[['account_id','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31']]
 

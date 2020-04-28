@@ -40,7 +40,7 @@ nano .bashrc
 export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
 export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/Devel
-source /home/ubuntu/.local/bin/virtualenvwrapper.sh
+source [RUTA DEL ARCHIVO virtualenvwrapper.sh]
 ~~~~
 
 Ejecutamos el siguiente comando para aplicar los cambios.
@@ -75,37 +75,10 @@ Ya creado y activado el ambiente virtual de python, con la version requerida, se
 la aplicación. Para instalar las dependencias se usa el siguiente comando dentro del ambiente virtual ubicando la 
 consola en la carpeta base del proyecto:
 
-`pip install -e .`
+`pip3 install -e .`
 
 Todas las dependencias se encuentran en el archivo setup.py el cual es identificado por el comando anterior para 
 poder instalar los paquetes requeridos.
-
-Fuera del ambiente virtual se debe instalar redis para ello ejecutamos los siguientes comandos:
-
-`sudo apt install redis-server`
-
-Luego editamos el achivo de configuración redis.conf cambiando la configuración "supervised" a "systemd" y reiniciamos el servicio
-
-`sudo apt install redis-server`
-
-~~~~
-sudo nano /etc/redis/redis.conf
-
-. . .
-
-# If you run Redis from upstart or systemd, Redis can interact with your
-# supervision tree. Options:
-#   supervised no      - no supervision interaction
-#   supervised upstart - signal upstart by putting Redis into SIGSTOP mode
-#   supervised systemd - signal systemd by writing READY=1 to $NOTIFY_SOCKET
-#   supervised auto    - detect upstart or systemd method based on
-#                        UPSTART_JOB or NOTIFY_SOCKET environment variables
-# Note: these supervision methods only signal "process is ready."
-#       They do not enable continuous liveness pings back to your supervisor.
-supervised systemd
-
-sudo systemctl restart redis.service
-~~~~ 
 
 ### Instalación gestor de paquetes
 Es requerido administrar las librerias externas por medio de un gestor de paquetes, para ello debemos instalar webpack
@@ -136,13 +109,6 @@ En sistemas UNIX se hace de la siguiente manera:
 export FLASK_APP=run.py
 export FLASK_ENV=development
 ~~~~
-
-El siguiente comando sirve para iniciar el servidor de aplicaciones que viene por defecto con flask:
-
-`flask run -h 0.0.0.0`
-
-El parametro -h (host) se establece en 0.0.0.0 si se necesita acceder al servidor a través de una IP diferente a 
-localhost.
 
 Si se desea probar el servicio a través del servidor de aplicaciones gunicorn el comando sería el siguiente:
 

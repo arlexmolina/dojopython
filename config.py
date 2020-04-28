@@ -17,7 +17,7 @@ class Config(object):
 
     gunicorn.SERVER_SOFTWARE = 'Microsoft-IIS/6.0'
 
-    PLATFORM_ENVIRONMENTS = ['accounting']
+    PLATFORM_ENVIRONMENTS = ['accounting', 'rooms']
 
 
 class DevelopmentConfig(Config):

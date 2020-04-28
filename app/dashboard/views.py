@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 
-from flask import render_template
+from flask import render_template, make_response
 
 from app import global_data
 from . import dashboard
@@ -30,3 +30,11 @@ def get_time_line_plot(account_id):
     last_load_date = datetime.now()
     time_line_json = plot.plot_time_lime(account_id, total_df, last_load_date)
     return time_line_json
+
+@dashboard.route('/download_files')
+def download_dataframes():
+    total_df = global_data.get_total_df()
+    resp = make_response(total_df.to_csv(sep='\t', index=False))
+    resp.headers["Content-Disposition"] = "attachment; filename=descarga.csv"
+    resp.headers["Content-Type"] = "text/csv"
+    return resp
