@@ -11,7 +11,7 @@ aplicaciones web.
 * Python -> 3.6.x (La version 3.7.x aún presenta incompatibilidad con varias librerías usadas, e.g. celery)
 * flask -> 1.0.x
 * redis -> 4.0.x - 5.0.x (Se ha probado en esas versiones y funciona correctamente)
-* pandas -> 0.25.0
+* pandas -> 0.24.2
 
 ## Para empezar
 ### Ambiente virtual de python
@@ -33,8 +33,10 @@ pip3 install virtualenvwrapper
 ~~~~
 
 Editamos el archivo de configuración bashcr y agregarmos las siguientes lineas al final del archivo.
+Para esto nos paramos en la base del proyecto
 
 ~~~~
+cd /home/drai06
 nano .bashrc
 
 export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
@@ -43,9 +45,10 @@ export PROJECT_HOME=$HOME/Devel
 source [RUTA DEL ARCHIVO virtualenvwrapper.sh]
 ~~~~
 
-Ejecutamos el siguiente comando para aplicar los cambios.
+Parados en la carpeta base ejecutamos el siguiente comando para aplicar los cambios.
+`cd /home/drai06`
 
-`source .bashrc`
+`source ~/.bashrc`
 
 Importante: crear el ambiente con la version 3.6.x de Python. Para instalar las diferentes librerías y paquetes en 
 python se debe tener instalador el manejadro de paquetes de python PIP. Normalmente viene instalado en sistemas UNIX. 
@@ -54,13 +57,13 @@ y en MACOS puede ser instalado con brew al instalar la version de Python requeri
 
 Para crear el ambiente con virtualenvwrapper se usa el siguiente comando:
 
-`mkvirtualenv -p python3.6 dojo`
+`mkvirtualenv -p python3.6 dojopython`
 
 La version python3.6 debe estar instalada en el equipo para poder usarla en la creacion del ambiente.
 
 Para trabajar con el ambiente de python creado se usa el comando:
 
-`workon dojo`
+`workon dojopython`
 
 Para salir del ambiente y volver a la version local de python se usa el comando:
 
@@ -74,6 +77,9 @@ Esto sirve para no tener conflictos con versiones y otras librerías.
 Ya creado y activado el ambiente virtual de python, con la version requerida, se pueden instalar las dependencias de 
 la aplicación. Para instalar las dependencias se usa el siguiente comando dentro del ambiente virtual ubicando la 
 consola en la carpeta base del proyecto:
+Descargamos el proyecto en el escritorio y accedemos a la carpeta por consola
+
+`cd /home/drai06/Escritorio/dojopython-master`
 
 `pip3 install -e .`
 
@@ -84,17 +90,16 @@ poder instalar los paquetes requeridos.
 Es requerido administrar las librerias externas por medio de un gestor de paquetes, para ello debemos instalar webpack
 mediante npm y nodejs, ejecutamos los diguientes comandos.
 
-~~~~
-sudo apt-get install curl
-curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
-sudo apt-get install nodejs
+~~~~ ################################# NO HACER (?) ####################
+
+sudo apt install nodejs
 ~~~~ 
 
 Posterior a la instalación nos ubicamos en la carpeta /app/static/ y ejecutamos los comandos
 
 ~~~~
-sudo npm install
-npm run build
+cd /home/drai06/Escritorio/dojopython-master/app/static
+sudo apt install npm
 ~~~~ 
 
 ## Correr en ambiente de desarrollo
@@ -107,12 +112,11 @@ En sistemas UNIX se hace de la siguiente manera:
 
 ~~~~
 export FLASK_APP=run.py
-export FLASK_ENV=development
 ~~~~
 
 Si se desea probar el servicio a través del servidor de aplicaciones gunicorn el comando sería el siguiente:
 
-`gunicorn -b localhost:8000 -w 1 run:app --timeout 1200 --threads 4`
+`gunicorn -b localhost:8000 -w 1 run:app --timeout 1200`
 
 Si se quieren imprimir mensajes de debug, se debe agregar al comando el parametro --log-level=debug
 

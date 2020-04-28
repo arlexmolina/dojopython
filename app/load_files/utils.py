@@ -93,59 +93,7 @@ def process_balances_file(balances_file, file_type='monthly', selected_date=None
     if valid_data:
         transform_month_data_frame(balances_df)
         duplicate_rows_df = balances_df[balances_df.duplicated(['account_id'])]
-
-
-        print('************************ duplicate_rows_df')
-        print(duplicate_rows_df)
-
-
-        if not duplicate_rows_df.empty:
-            duplicate = balances_df[['account_id','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31']]
-
-            duplicate = duplicate.loc[duplicate['account_id'].isin(duplicate_rows_df.account_id.unique())]
-
-            balances_df.drop_duplicates(subset ="account_id",
-                             keep = False, inplace = True)
-
-            duplicate = duplicate.groupby('account_id', as_index = False).sum()
-
-            duplicate_rows_df['1'] = duplicate_rows_df['account_id'].map(duplicate.set_index('account_id')['1']).fillna(duplicate_rows_df['1'])
-            duplicate_rows_df['2'] = duplicate_rows_df['account_id'].map(duplicate.set_index('account_id')['2']).fillna(duplicate_rows_df['2'])
-            duplicate_rows_df['3'] = duplicate_rows_df['account_id'].map(duplicate.set_index('account_id')['3']).fillna(duplicate_rows_df['3'])
-            duplicate_rows_df['4'] = duplicate_rows_df['account_id'].map(duplicate.set_index('account_id')['4']).fillna(duplicate_rows_df['4'])
-            duplicate_rows_df['5'] = duplicate_rows_df['account_id'].map(duplicate.set_index('account_id')['5']).fillna(duplicate_rows_df['5'])
-            duplicate_rows_df['6'] = duplicate_rows_df['account_id'].map(duplicate.set_index('account_id')['6']).fillna(duplicate_rows_df['6'])
-            duplicate_rows_df['7'] = duplicate_rows_df['account_id'].map(duplicate.set_index('account_id')['7']).fillna(duplicate_rows_df['7'])
-            duplicate_rows_df['8'] = duplicate_rows_df['account_id'].map(duplicate.set_index('account_id')['8']).fillna(duplicate_rows_df['8'])
-            duplicate_rows_df['9'] = duplicate_rows_df['account_id'].map(duplicate.set_index('account_id')['9']).fillna(duplicate_rows_df['9'])
-            duplicate_rows_df['10'] = duplicate_rows_df['account_id'].map(duplicate.set_index('account_id')['10']).fillna(duplicate_rows_df['10'])
-            duplicate_rows_df['11'] = duplicate_rows_df['account_id'].map(duplicate.set_index('account_id')['11']).fillna(duplicate_rows_df['11'])
-            duplicate_rows_df['12'] = duplicate_rows_df['account_id'].map(duplicate.set_index('account_id')['12']).fillna(duplicate_rows_df['12'])
-            duplicate_rows_df['13'] = duplicate_rows_df['account_id'].map(duplicate.set_index('account_id')['13']).fillna(duplicate_rows_df['13'])
-            duplicate_rows_df['14'] = duplicate_rows_df['account_id'].map(duplicate.set_index('account_id')['14']).fillna(duplicate_rows_df['14'])
-            duplicate_rows_df['15'] = duplicate_rows_df['account_id'].map(duplicate.set_index('account_id')['15']).fillna(duplicate_rows_df['15'])
-            duplicate_rows_df['16'] = duplicate_rows_df['account_id'].map(duplicate.set_index('account_id')['16']).fillna(duplicate_rows_df['16'])
-            duplicate_rows_df['17'] = duplicate_rows_df['account_id'].map(duplicate.set_index('account_id')['17']).fillna(duplicate_rows_df['17'])
-            duplicate_rows_df['18'] = duplicate_rows_df['account_id'].map(duplicate.set_index('account_id')['18']).fillna(duplicate_rows_df['18'])
-            duplicate_rows_df['19'] = duplicate_rows_df['account_id'].map(duplicate.set_index('account_id')['19']).fillna(duplicate_rows_df['19'])
-            duplicate_rows_df['20'] = duplicate_rows_df['account_id'].map(duplicate.set_index('account_id')['20']).fillna(duplicate_rows_df['20'])
-            duplicate_rows_df['21'] = duplicate_rows_df['account_id'].map(duplicate.set_index('account_id')['21']).fillna(duplicate_rows_df['21'])
-            duplicate_rows_df['22'] = duplicate_rows_df['account_id'].map(duplicate.set_index('account_id')['22']).fillna(duplicate_rows_df['22'])
-            duplicate_rows_df['23'] = duplicate_rows_df['account_id'].map(duplicate.set_index('account_id')['23']).fillna(duplicate_rows_df['23'])
-            duplicate_rows_df['24'] = duplicate_rows_df['account_id'].map(duplicate.set_index('account_id')['24']).fillna(duplicate_rows_df['24'])
-            duplicate_rows_df['25'] = duplicate_rows_df['account_id'].map(duplicate.set_index('account_id')['25']).fillna(duplicate_rows_df['25'])
-            duplicate_rows_df['26'] = duplicate_rows_df['account_id'].map(duplicate.set_index('account_id')['26']).fillna(duplicate_rows_df['26'])
-            duplicate_rows_df['27'] = duplicate_rows_df['account_id'].map(duplicate.set_index('account_id')['27']).fillna(duplicate_rows_df['27'])
-            duplicate_rows_df['28'] = duplicate_rows_df['account_id'].map(duplicate.set_index('account_id')['28']).fillna(duplicate_rows_df['28'])
-            duplicate_rows_df['29'] = duplicate_rows_df['account_id'].map(duplicate.set_index('account_id')['29']).fillna(duplicate_rows_df['29'])
-            duplicate_rows_df['30'] = duplicate_rows_df['account_id'].map(duplicate.set_index('account_id')['30']).fillna(duplicate_rows_df['30'])
-            duplicate_rows_df['31'] = duplicate_rows_df['account_id'].map(duplicate.set_index('account_id')['31']).fillna(duplicate_rows_df['31'])
-
-            duplicate_rows_df['currency_type'] = 3
-
-            balances_df = balances_df.append(duplicate_rows_df)
-
-            return balances_df
+        return balances_df
 
     else:
         return balances_df

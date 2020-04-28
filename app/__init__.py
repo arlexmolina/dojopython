@@ -19,7 +19,7 @@ global_data = InitData()
 def create_app(config_name):
     """Create and configure an instance of the Flask application."""
     app = Flask(__name__, instance_relative_config=True)
-
+    config_name = 'development'
     app.config.from_object(app_config[config_name])
     app.config.from_pyfile('config.py')
 
