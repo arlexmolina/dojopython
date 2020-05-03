@@ -106,19 +106,12 @@ def booking():
             name=name,
             id_room=id_room
         ))
-
-        print('Sending email')
-        msg = Message('Tutorial point3', sender = 'materiapps@gmail.com', recipients = [email])
-        msg.body = "Hello Flask message sent from Flask-Mail "
-        mail.send(msg)
-        # return "Sent"
-        #
-        # msg_dicts = []
-        # message_dict = email_utils.message_to_dict(to=[email],
-        #                                            subject="Conformación de reserva",
-        #                                            template='alerts_generated')
-        # msg_dicts.append(message_dict)
-        # email_utils.send_async_emails(msg_dicts)
+        msg_dicts = []
+        message_dict = email_utils.message_to_dict(to=[email],
+                                                   subject="Conformación de reserva",
+                                                   template='alerts_generated')
+        msg_dicts.append(message_dict)
+        email_utils.send_async_emails(msg_dicts)
 
     except Exception as e:
         print('********************* error')
