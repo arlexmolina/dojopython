@@ -22,7 +22,7 @@ select_propiedad = 'SELECT *, PROPIEDAD.idAgencia as agencia FROM innodb.PROPIED
                     'where idPropiedad = %(id)s;'
 select_propiedades = 'SELECT *, PROPIEDAD.idAgencia as agencia FROM innodb.PROPIEDAD  inner join innodb.CIUDADES on ' \
                     'PROPIEDAD.idCiudad = CIUDADES.idCiudad  inner join innodb.AGENCIA on AGENCIA.idAgencia = PROPIEDAD.idAgencia ' \
-                    'where idPropiedad NOT IN (SELECT distinct idReserva FROM innodb.RESERVA where (fechaInicio between %(date1)s and %(date2)s) ' \
+                    'where idPropiedad NOT IN (SELECT distinct idPropiedad FROM innodb.RESERVA where (fechaInicio between %(date1)s and %(date2)s) ' \
                     'or (fechaFinal between %(date3)s and %(date4)s)) ' \
                     'and codigoCiudad = %(codigo)s; '
 
