@@ -14,13 +14,20 @@ import numpy as np
 import codecs, json
 
 engine = create_engine(instance_config.SQLALCHEMY_DATABASE_URI, pool_recycle=3600)
-select_propiedades = 'SELECT *, PROPIEDAD.idAgencia as agencia FROM innodb.PROPIEDAD  inner join innodb.CIUDADES on PROPIEDAD.idCiudad = CIUDADES.idCiudad  inner join innodb.AGENCIA on AGENCIA.idAgencia = PROPIEDAD.idAgencia where idPropiedad = %(id)s;'
+select_propiedad = 'SELECT *, PROPIEDAD.idAgencia as agencia FROM innodb.PROPIEDAD  inner join innodb.CIUDADES on ' \
+                    'PROPIEDAD.idCiudad = CIUDADES.idCiudad  inner join innodb.AGENCIA on AGENCIA.idAgencia = PROPIEDAD.idAgencia ' \
+                    'where idPropiedad = %(id)s;'
+select_propiedades = 'SELECT *, PROPIEDAD.idAgencia as agencia FROM innodb.PROPIEDAD  inner join innodb.CIUDADES on ' \
+                    'PROPIEDAD.idCiudad = CIUDADES.idCiudad  inner join innodb.AGENCIA on AGENCIA.idAgencia = PROPIEDAD.idAgencia ' \
+                    'where (fechaInicio between %(date1)s and %(date2)s) ' \
+                    'or (fechaFinal between %(date3)s and %(date4)s)) ' \
+                    'and codigoCiudad = %(codigo)s; '
 
 # nuevo metodo
 @load_files.route('/<id>', methods=['GET'])
 def rooms(id):
 
-    propiedades = pd.read_sql(select_propiedades, con=db.engine, params={'id':id})
+    propiedades = pd.read_sql(select_propiedad, con=db.engine, params={'id':id})
     fotos = pd.read_sql("FOTO", con=engine)
     servicios = pd.read_sql("SERVICIOS", con=engine)
     fotos_propiedades = fotos[fotos['idPropiedad'] == id]
@@ -34,9 +41,6 @@ def rooms(id):
 
     fotos_propiedades = fotos_propiedades.drop(['idFoto', 'idPropiedad', 'tipo'], axis=1)
     json_fotos = fotos_propiedades.to_json(orient='records')
-
-    print(propiedad)
-    print('propiedad')
 
     r = make_response(jsonify(
         id=propiedad.idPropiedad,
@@ -54,7 +58,7 @@ def rooms(id):
             "name":propiedad.nombreAgencia,
             "logo_url":propiedad.logo
         },
-        property_name=propiedad.propietario,
+        property_name=propiedad.nombrePropiedad,
         rating=propiedad.ratingPropiedad,
         services=json_servicios
     ))
@@ -68,34 +72,32 @@ def search():
     checkin = request.args.get('checkin')
     checkout = request.args.get('checkout')
 
-    agencia = pd.read_sql("AGENCIA", con=engine)
+    propiedades = pd.read_sql(select_propiedades, con=db.engine, params={'date1':checkin, 'date2':checkout, 'date3':checkin, 'date4':checkout, 'codigo':location})
+    filtro = []
 
-    if(location == 'MDE'):
-        r = make_response(jsonify(
-            id="ID",
-            thumbnail="URL",
+    for index, propiedad in propiedades.iterrows():
+        filtro.append(jsonify(
+            id=propiedad.idPropiedad,
+            thumbnail=propiedad.urlMiniatura,
             location={
-                "name":"Medellin",
-                "code":"MDE",
-                "latitude":"",
-                "longitude":""
+                "name":propiedad.nombreCiudad,
+                "code":propiedad.codigoCiudad,
+                "latitude":propiedad.latitute,
+                "longitude":propiedad.longitute
             },
-            price="",
-            currency="COP",
-            property_name="NAME",
-            rating=0.0,
+            price=propiedad.precioNoche,
+            currency=propiedad.currency,
             agency={
-                "name":"Nutibara",
-                "id":"1234"
-            }
+                "id":propiedad.agencia,
+                "name":propiedad.nombreAgencia,
+                "logo_url":propiedad.logo
+            },
+            property_name=propiedad.nombrePropiedad,
+            rating=propiedad.ratingPropiedad
         ))
 
-        agencia = pd.read_sql("AGENCIA", con=engine)
-        print('***************** agencia')
-        print(agencia)
+    r = make_response(jsonify(filtro))
 
-    else:
-        r = make_response(jsonify())
     r.mimetype = 'application/json'
     return r
 
