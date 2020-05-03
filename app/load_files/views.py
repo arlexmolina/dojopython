@@ -1,17 +1,75 @@
 from datetime import datetime, timedelta
-
+import pandas as pd
 from flask import redirect, url_for, flash, request, render_template, make_response, jsonify
+from sqlalchemy import create_engine
 from werkzeug.datastructures import CombinedMultiDict
-
+import instance.config as instance_config
+import pandas as pd
+from .. import db
 from app import global_data
 from . import load_files
 from . import utils as load_files_utils
 from .forms import UploadForm
+import numpy as np
+import codecs, json
+
+engine = create_engine(instance_config.SQLALCHEMY_DATABASE_URI, pool_recycle=3600)
+select_propiedades = 'SELECT *, PROPIEDAD.idAgencia as agencia FROM innodb.PROPIEDAD  inner join innodb.CIUDADES on PROPIEDAD.idCiudad = CIUDADES.idCiudad  inner join innodb.AGENCIA on AGENCIA.idAgencia = PROPIEDAD.idAgencia where idPropiedad = %(id)s;'
+
+@load_files.route('/<id>', methods=['GET'])
+def rooms(id):
+
+    propiedades = pd.read_sql(select_propiedades, con=db.engine, params={'id':id})
+    fotos = pd.read_sql("FOTO", con=engine)
+    servicios = pd.read_sql("SERVICIOS", con=engine)
+    fotos_propiedades = fotos[fotos['idPropiedad'] == id]
+    servicios_propiedades = servicios[servicios['idPropiedad'] == id]
+
+    servicios_propiedades = servicios_propiedades.drop(['idPropiedad'], axis=1)
+    json_servicios = servicios_propiedades.to_json(orient='values')
+
+    #propiedad = propiedades.to_json(orient='split')
+    propiedad = propiedades.iloc[0]
+
+    fotos_propiedades = fotos_propiedades.drop(['idFoto', 'idPropiedad', 'tipo'], axis=1)
+    json_fotos = fotos_propiedades.to_json(orient='records')
+
+    print(propiedad)
+    print('propiedad')
+
+    r = make_response(jsonify(
+        id=propiedad.idPropiedad,
+        images=json_fotos,
+        location={
+            "name":propiedad.nombreCiudad,
+            "code":propiedad.codigoCiudad,
+            "latitude":propiedad.latitute,
+            "longitude":propiedad.longitute
+        },
+        price=propiedad.precioNoche,
+        currency=propiedad.currency,
+        agency={
+            "id":propiedad.agencia,
+            "name":propiedad.nombreAgencia,
+            "logo_url":propiedad.logo
+        },
+        property_name=propiedad.propietario,
+        rating=propiedad.ratingPropiedad,
+        services=json_servicios
+    ))
+
+
+    return r
 
 
 @load_files.route('/search', methods=['GET'])
 def search():
     location = request.args.get('location')
+    checkin = request.args.get('checkin')
+    checkout = request.args.get('checkout')
+
+    agencia = pd.read_sql("AGENCIA", con=engine)
+
     if(location == 'MDE'):
         r = make_response(jsonify(
             id="ID",
@@ -31,6 +89,11 @@ def search():
                 "id":"1234"
             }
         ))
+
+        agencia = pd.read_sql("AGENCIA", con=engine)
+        print('***************** agencia')
+        print(agencia)
+
     else:
         r = make_response(jsonify())
     r.mimetype = 'application/json'
