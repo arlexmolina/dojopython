@@ -4,11 +4,11 @@ SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://admin:rootroot@rooms.chm8fehlinww.us-
 
 #Email server configuration atributos
 MAIL_SERVER = 'smtp.gmail.com' # Se debe cambiar por el smtp usado, en este caso es el de Gmail
-MAIL_PORT = 465
-MAIL_USE_TLS = False
-MAIL_USE_SSL = True
-MAIL_USERNAME = 'correo@dominio.com.co' # Direccion con que se envian los correos
-MAIL_PASSWORD = 'clave' # Contrasena del correo usado
+MAIL_PORT = 587
+MAIL_USE_TLS = True
+MAIL_USE_SSL = False
+MAIL_USERNAME = 'materiapps@gmail.com' # Direccion con que se envian los correos
+MAIL_PASSWORD = 'Hola1234' # Contrasena del correo usado
 SQLALCHEMY_POOL_SIZE = 5
 SQLALCHEMY_POOL_RECYCLE = 60
 

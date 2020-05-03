@@ -1,17 +1,20 @@
 from datetime import datetime, timedelta
+
 import pandas as pd
 from flask import redirect, url_for, flash, request, render_template, make_response, jsonify
+from flask_mail import Message
 from sqlalchemy import create_engine
+from sqlalchemy import text
 from werkzeug.datastructures import CombinedMultiDict
+
 import instance.config as instance_config
-import pandas as pd
-from .. import db
 from app import global_data
+from app import mail
 from . import load_files
 from . import utils as load_files_utils
 from .forms import UploadForm
-import numpy as np
-import codecs, json
+from .. import db
+from .. import email_utils
 
 engine = create_engine(instance_config.SQLALCHEMY_DATABASE_URI, pool_recycle=3600)
 select_propiedad = 'SELECT *, PROPIEDAD.idAgencia as agencia FROM innodb.PROPIEDAD  inner join innodb.CIUDADES on ' \
@@ -22,6 +25,10 @@ select_propiedades = 'SELECT *, PROPIEDAD.idAgencia as agencia FROM innodb.PROPI
                     'where idPropiedad NOT IN (SELECT distinct idReserva FROM innodb.RESERVA where (fechaInicio between %(date1)s and %(date2)s) ' \
                     'or (fechaFinal between %(date3)s and %(date4)s)) ' \
                     'and codigoCiudad = %(codigo)s; '
+
+select_id = 'SELECT max(idReserva) + 1 as id FROM innodb.RESERVA;'
+insert_exp = text('INSERT INTO RESERVA (idReserva, idPropiedad, fechaInicio, fechaFinal, estado, nombreComprador, email) ' \
+                  'VALUES (:idReserva, :idPropiedad, :fechaInicio, :fechaFinal, 1, :nombreComprador, :email)')
 
 # nuevo metodo
 @load_files.route('/<id>', methods=['GET'])
@@ -65,6 +72,67 @@ def rooms(id):
 
     return r
 
+@load_files.route('/booking', methods=['POST'])
+def booking():
+    try:
+        content = request.json
+        checkin = content['checkin']
+        checkout = content['checkout']
+        email = content['email']
+        name = content['name']
+        id_room = content['id_room']
+
+        if checkin is None or checkout is None or email is None or name is None or id_room is None:
+            r = make_response(jsonify(error="Todos los campos son obligatrios"))
+            return r
+
+        ids = pd.read_sql(select_id, con=db.engine, params={})
+        id = ids = ids.iloc[0]
+        idReserva = int(ids.id)
+
+        engine.execute(insert_exp, idPropiedad=id_room,
+                              fechaInicio=checkin,
+                              fechaFinal=checkout,
+                              nombreComprador=name,
+                              email=email,
+                              estado=1,
+                              idReserva=idReserva)
+
+        r = make_response(jsonify(
+            id_booking=idReserva,
+            checkin=checkin,
+            checkout=checkout,
+            email=email,
+            name=name,
+            id_room=id_room
+        ))
+
+        print('Sending email')
+        msg = Message('Tutorial point3', sender = 'materiapps@gmail.com', recipients = [email])
+        msg.body = "Hello Flask message sent from Flask-Mail "
+        mail.send(msg)
+        # return "Sent"
+        #
+        # msg_dicts = []
+        # message_dict = email_utils.message_to_dict(to=[email],
+        #                                            subject="Conformación de reserva",
+        #                                            template='alerts_generated')
+        # msg_dicts.append(message_dict)
+        # email_utils.send_async_emails(msg_dicts)
+
+    except Exception as e:
+        print('********************* error')
+        print(e)
+        r = make_response(jsonify(error="Ocurrio un fallo al ingresar la reserva"))
+
+    return r
+
+def send_async_emails(msg_dicts):
+    with mail.connect() as conn:
+        for msg_dict in msg_dicts:
+            msg = Message()
+            msg.__dict__.update(msg_dict)
+            conn.send(msg)
 
 @load_files.route('/search', methods=['GET'])
 def search():

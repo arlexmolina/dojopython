@@ -1,4 +1,5 @@
 from flask import Flask, make_response
+from flask_mail import Mail
 from flask_sqlalchemy import SQLAlchemy
 
 from app.logging.MyLogger import MyLogger
@@ -10,6 +11,7 @@ from .init_data import InitData
 global_data = InitData()
 #base de datos
 db = SQLAlchemy()
+mail = Mail()
 
 # Este es el modulo principal de la aplicacion donde se inicializa toda la configuracion de la instancia.
 # Esto esta basado en un patron llamado application factory y se puede encontrar en la documentacion de flask.
@@ -27,6 +29,8 @@ def create_app(config_name):
     app.config.from_pyfile('config.py')
 
     db.init_app(app)
+    print(app.config)
+    mail.init_app(app)
 
     MyLogger().init_app(app)
 
