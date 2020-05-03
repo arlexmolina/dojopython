@@ -8,7 +8,7 @@ logger = MyLogger.__call__().get_logger()
 
 from .init_data import InitData
 global_data = InitData()
-
+#base de datos
 db = SQLAlchemy()
 
 # Este es el modulo principal de la aplicacion donde se inicializa toda la configuracion de la instancia.

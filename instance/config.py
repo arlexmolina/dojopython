@@ -1,7 +1,8 @@
 SECRET_KEY = 'test' #Puede ser cualquier valor aleatorio
+#database
 SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://admin:rootroot@rooms.chm8fehlinww.us-east-1.rds.amazonaws.com:3306/innodb'
 
-#Email server configuration
+#Email server configuration atributos
 MAIL_SERVER = 'smtp.gmail.com' # Se debe cambiar por el smtp usado, en este caso es el de Gmail
 MAIL_PORT = 465
 MAIL_USE_TLS = False

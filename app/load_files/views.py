@@ -16,6 +16,7 @@ import codecs, json
 engine = create_engine(instance_config.SQLALCHEMY_DATABASE_URI, pool_recycle=3600)
 select_propiedades = 'SELECT *, PROPIEDAD.idAgencia as agencia FROM innodb.PROPIEDAD  inner join innodb.CIUDADES on PROPIEDAD.idCiudad = CIUDADES.idCiudad  inner join innodb.AGENCIA on AGENCIA.idAgencia = PROPIEDAD.idAgencia where idPropiedad = %(id)s;'
 
+# nuevo metodo
 @load_files.route('/<id>', methods=['GET'])
 def rooms(id):
 
@@ -57,7 +58,6 @@ def rooms(id):
         rating=propiedad.ratingPropiedad,
         services=json_servicios
     ))
-
 
     return r
 
