@@ -151,8 +151,7 @@ def search():
                 "currency":propiedad.currency,
                 "agency":{
                     "id":propiedad.agencia,
-                    "name":propiedad.nombreAgencia,
-                    "logo_url":propiedad.logo
+                    "name":propiedad.nombreAgencia
                 },
                 "property_name":propiedad.nombrePropiedad,
                 "rating":propiedad.ratingPropiedad
