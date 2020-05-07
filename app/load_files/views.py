@@ -201,17 +201,8 @@ def load_account_files():
 
 
 @load_files.route('/user', methods=['POST'])
-def booking():
+def user():
     content = request.json
-    print('****************************************** content')
-    print(content)
     transactionId = content['TransactionId']
-    form_data=cgi.FieldStorage()
-    print('Content-type:text/html\n\n')
-    if 'username' not in form_data or 'password' not in form_data:
-       redirectURL = "http://localhost:4200/user/"+transactionId
-       print('<html>')
-       print('  <head>')
-       print('    <meta http-equiv="refresh" content="0;url='+str(redirectURL)+'" />')
-       print('  </head>')
-       print('</html>')
+    redirectURL = "http://valemastest.s3-website-us-east-1.amazonaws.com/user/"+transactionId
+    return redirect(redirectURL)
