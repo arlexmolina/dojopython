@@ -205,10 +205,13 @@ def user():
     content = request.json
     print('*********************** content')
     print(content)
-    transactionId = content['TransactionId']
-    print('*********************** transactionId')
-    print(transactionId)
-    redirectURL = "http://valemastest.s3-website-us-east-1.amazonaws.com/user/"+transactionId
-    print('*********************** redirectURL')
-    print(redirectURL)
-    return redirect(redirectURL)
+    # transactionId = content['TransactionId']
+    # print('*********************** transactionId')
+    # print(transactionId)
+    # redirectURL = "http://valemastest.s3-website-us-east-1.amazonaws.com/user/"+transactionId
+    # print('*********************** redirectURL')
+    # print(redirectURL)
+    # return redirect(redirectURL)
+    r = make_response(jsonify(content))
+
+    return r
