@@ -15,6 +15,7 @@ from . import utils as load_files_utils
 from .forms import UploadForm
 from .. import db
 from .. import email_utils
+import cgi
 
 engine = create_engine(instance_config.SQLALCHEMY_DATABASE_URI, pool_recycle=3600)
 select_propiedad = 'SELECT *, PROPIEDAD.idAgencia as agencia FROM innodb.PROPIEDAD  inner join innodb.CIUDADES on ' \
@@ -199,3 +200,18 @@ def load_account_files():
                            current_date=datetime.strftime(current_date, '%d/%m/%Y'))
 
 
+@load_files.route('/user', methods=['POST'])
+def booking():
+    content = request.json
+    print('****************************************** content')
+    print(content)
+    transactionId = content['TransactionId']
+    form_data=cgi.FieldStorage()
+    print('Content-type:text/html\n\n')
+    if 'username' not in form_data or 'password' not in form_data:
+       redirectURL = "http://localhost:4200/user/"+transactionId
+       print('<html>')
+       print('  <head>')
+       print('    <meta http-equiv="refresh" content="0;url='+str(redirectURL)+'" />')
+       print('  </head>')
+       print('</html>')
