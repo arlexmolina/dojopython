@@ -46,7 +46,7 @@ def rooms(id):
     #propiedad = propiedades.to_json(orient='split')
     propiedad = propiedades.iloc[0]
 
-    fotos_propiedades = fotos_propiedades.drop(['idFoto', 'idPropiedad', 'tipo'], axis=1)
+    fotos_propiedades = fotos_propiedades.drop(['idFoto', 'idPropiedad'], axis=1)
     json_fotos = fotos_propiedades.to_json(orient='records')
 
     r = make_response(jsonify(
