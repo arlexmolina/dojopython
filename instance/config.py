@@ -12,3 +12,4 @@ MAIL_PASSWORD = 'productos2012*' # Contrasena del correo usado
 SQLALCHEMY_POOL_SIZE = 5
 SQLALCHEMY_POOL_RECYCLE = 60
 
+#branch qa
