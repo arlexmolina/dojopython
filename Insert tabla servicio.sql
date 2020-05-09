@@ -1,9 +1,3 @@
-/*
--- Query: SELECT * FROM innodb.SERVICIOS
-LIMIT 0, 1000
-
--- Date: 2020-05-06 22:05
-*/
 INSERT INTO `` (`idPropiedad`,`nombreServicio`) VALUES ('19','2 cuartos y 1 wc');
 INSERT INTO `` (`idPropiedad`,`nombreServicio`) VALUES ('19','internet');
 INSERT INTO `` (`idPropiedad`,`nombreServicio`) VALUES ('19','Tv por cable');
