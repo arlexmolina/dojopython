@@ -45,6 +45,7 @@ def rooms(id):
 
     servicios_propiedades = servicios_propiedades.drop(['idPropiedad'], axis=1)
     json_servicios = servicios_propiedades.to_json(orient='values')
+    xjsdon = json.loads(json_servicios)
 
     propiedad = propiedades.iloc[0]
 
@@ -70,7 +71,7 @@ def rooms(id):
         },
         property_name=propiedad.nombrePropiedad,
         rating=propiedad.ratingPropiedad,
-        services=json_servicios
+        services=xjsdon
     ))
 
     return r
