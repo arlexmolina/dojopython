@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 
 import pandas as pd
 from flask import redirect, url_for, flash, request, render_template, make_response, jsonify
+from flask_cors import cross_origin
 from flask_mail import Message
 from sqlalchemy import create_engine
 from sqlalchemy import text
@@ -33,6 +34,7 @@ insert_exp = text('INSERT INTO RESERVA (idReserva, idPropiedad, fechaInicio, fec
 
 # nuevo metodo
 @load_files.route('/<id>', methods=['GET'])
+@cross_origin() # allow all origins all methods.
 def rooms(id):
 
     propiedades = pd.read_sql(select_propiedad, con=db.engine, params={'id':id})
@@ -74,6 +76,7 @@ def rooms(id):
     return r
 
 @load_files.route('/booking', methods=['POST'])
+@cross_origin() # allow all origins all methods.
 def booking():
     try:
         content = request.json
@@ -129,6 +132,7 @@ def send_async_emails(msg_dicts):
             conn.send(msg)
 
 @load_files.route('/search', methods=['GET'])
+@cross_origin() # allow all origins all methods.
 def search():
     location = request.args.get('location')
     checkin = request.args.get('checkin')
