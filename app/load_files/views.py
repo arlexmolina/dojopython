@@ -16,7 +16,7 @@ from . import utils as load_files_utils
 from .forms import UploadForm
 from .. import db
 from .. import email_utils
-import cgi
+import json
 
 engine = create_engine(instance_config.SQLALCHEMY_DATABASE_URI, pool_recycle=3600)
 select_propiedad = 'SELECT *, PROPIEDAD.idAgencia as agencia FROM innodb.PROPIEDAD  inner join innodb.CIUDADES on ' \
@@ -46,15 +46,15 @@ def rooms(id):
     servicios_propiedades = servicios_propiedades.drop(['idPropiedad'], axis=1)
     json_servicios = servicios_propiedades.to_json(orient='values')
 
-    #propiedad = propiedades.to_json(orient='split')
     propiedad = propiedades.iloc[0]
 
     fotos_propiedades = fotos_propiedades.drop(['idFoto', 'idPropiedad'], axis=1)
     json_fotos = fotos_propiedades.to_json(orient='records')
+    yjsdon = json.loads(json_fotos)
 
     r = make_response(jsonify(
         id=propiedad.idPropiedad,
-        images=json_fotos,
+        images=yjsdon,
         location={
             "name":propiedad.nombreCiudad,
             "code":propiedad.codigoCiudad,
