@@ -208,6 +208,8 @@ def load_account_files():
 @cross_origin() # allow all origins all methods.
 def user():
     content = request.json
+    if content is None:
+        content = request.form
     print('*********************** content')
     print(content)
     # transactionId = content['TransactionId']
