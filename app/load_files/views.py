@@ -213,7 +213,7 @@ def user():
 
     content = json.loads(content)
     transactionId = content['TransactionId']
-    redirectURL = "http://valemastest.s3-website-us-east-1.amazonaws.com/user/"+transactionId
+    redirectURL = "http://valemastest.s3-website-us-east-1.amazonaws.com/user?id="+transactionId
     return redirect(redirectURL)
     # r = make_response(jsonify(content))
     # return r
