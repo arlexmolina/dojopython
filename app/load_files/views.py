@@ -209,8 +209,9 @@ def load_account_files():
 def user():
     content = request.json
     if content is None:
-        content = request.form
+        content = request.form['_Response']
 
+    content = json.loads(content)
     transactionId = content['TransactionId']
     redirectURL = "http://valemastest.s3-website-us-east-1.amazonaws.com/user/"+transactionId
     return redirect(redirectURL)
