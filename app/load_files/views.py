@@ -205,6 +205,7 @@ def load_account_files():
 
 
 @load_files.route('/user', methods=['POST'])
+@cross_origin() # allow all origins all methods.
 def user():
     content = request.json
     print('*********************** content')
