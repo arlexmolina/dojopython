@@ -28,6 +28,10 @@ select_propiedades = 'SELECT *, PROPIEDAD.idAgencia as agencia FROM innodb.PROPI
                     'or (fechaFinal between %(date3)s and %(date4)s)) ' \
                     'and codigoCiudad = %(codigo)s; '
 
+select_reservas = 'SELECT *, PROPIEDAD.idAgencia as agencia, RESERVA.idPropiedad as idBooking FROM innodb.RESERVA inner join innodb.PROPIEDAD on PROPIEDAD.idPropiedad = RESERVA.idPropiedad inner join innodb.CIUDADES on ' \
+                    'PROPIEDAD.idCiudad = CIUDADES.idCiudad  inner join innodb.AGENCIA on AGENCIA.idAgencia = PROPIEDAD.idAgencia ' \
+                    'where email = %(email)s; '
+
 select_id = 'SELECT max(idReserva) + 1 as id FROM innodb.RESERVA;'
 insert_exp = text('INSERT INTO RESERVA (idReserva, idPropiedad, fechaInicio, fechaFinal, estado, nombreComprador, email) ' \
                   'VALUES (:idReserva, :idPropiedad, :fechaInicio, :fechaFinal, 1, :nombreComprador, :email)')
@@ -100,6 +104,45 @@ def rooms(id):
 
     return r
 
+@load_files.route('/booking/<user_id>', methods=['GET'])
+@cross_origin() # allow all origins all methods.
+def reserves(user_id):
+
+    propiedades = pd.read_sql(select_reservas, con=db.engine, params={'email':user_id})
+    filtro = []
+    now = datetime.now()
+    try:
+        for index, propiedad in propiedades.iterrows():
+            data = {
+                "id_room":propiedad.idBooking,
+                "thumbnail":propiedad.urlMiniatura,
+                "location":{
+                    "name":propiedad.nombreCiudad,
+                    "code":propiedad.codigoCiudad,
+                    "latitude":propiedad.latitute,
+                    "longitude":propiedad.longitute
+                },
+                "price":propiedad.precioNoche,
+                "currency":propiedad.currency,
+                "agency":{
+                    "id":propiedad.agencia,
+                    "name":propiedad.nombreAgencia
+                },
+                "property_name":propiedad.nombrePropiedad,
+                "id_booking":propiedad.idReserva,
+                "checkin":propiedad.fechaInicio.strftime("%Y-%m-%d"),
+                "checkout":propiedad.fechaFinal.strftime("%Y-%m-%d")
+            }
+            filtro.append(data)
+        r = make_response(jsonify(filtro))
+    except Exception as e:
+        print('********************* error')
+        print(e)
+
+    r = make_response(jsonify(filtro))
+    r.mimetype = 'application/json'
+    return r
+
 @load_files.route('/booking', methods=['POST'])
 @cross_origin() # allow all origins all methods.
 def booking():
@@ -143,8 +186,6 @@ def booking():
         email_utils.send_async_emails(msg_dicts)
 
     except Exception as e:
-        print('********************* error')
-        print(e)
         r = make_response(jsonify(error="Ocurrio un fallo al ingresar la reserva"))
 
     return r
