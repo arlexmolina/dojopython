@@ -72,8 +72,8 @@ def rooms(id):
     servicios_propiedades = servicios[servicios['idPropiedad'] == id]
 
     servicios_propiedades = servicios_propiedades.drop(['idPropiedad'], axis=1)
-    json_servicios = servicios_propiedades.to_json(orient='values')
-    xjsdon = json.loads(json_servicios)
+    json_servicios = servicios_propiedades.reset_index().to_dict(orient='list')
+    xjsdon = json_servicios['nombreServicio']
 
     propiedad = propiedades.iloc[0]
 
@@ -129,7 +129,7 @@ def reserves(user_id):
                     "name":propiedad.nombreAgencia
                 },
                 "property_name":propiedad.nombrePropiedad,
-                "id_booking":propiedad.idReserva,
+                "id_booking":str(propiedad.idReserva),
                 "checkin":propiedad.fechaInicio.strftime("%Y-%m-%d"),
                 "checkout":propiedad.fechaFinal.strftime("%Y-%m-%d")
             }
