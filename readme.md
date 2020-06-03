@@ -1,5 +1,8 @@
 # README #
 
+# tests
+`python3 -m unittest discover`
+
 # Dojo python pandas
 
 En este repositorio se encuentra el codigo del Dojo python-pandas.
