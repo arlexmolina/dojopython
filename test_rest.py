@@ -14,6 +14,7 @@ class TestDataObjects(unittest.TestCase):
     API_USER = 'http://localhost:8000/rooms/booking/darlexx08@gmail.com'
     API_SEARCH = 'http://localhost:8000/rooms/search?location=MDE&checkin=2020-01-01&checkout=2020-01-01'
     API_RESERVE = 'http://localhost:8000/rooms/booking'
+    API_MOCK = 'https://demo3205276.mockable.io/rooms/1'
 
     @classmethod
     def setUpClass(self):
@@ -60,3 +61,14 @@ class TestDataObjects(unittest.TestCase):
         json_response = r.get_json()
         self.assertEqual(r.status_code, 200)
         self.assertIsNotNone(json_response['id_booking'])
+
+    def test_07_mockable(self):
+        r = self.app.get(self.API_ROOMS)
+        rr = self.app.get(self.API_MOCK)
+        self.assertEqual(r.status_code, 200)
+        self.assertEqual(rr.status_code, 200)
+        json_response = r.get_json()
+        json_response_mock = rr.get_json()
+        self.assertIsNotNone(json_response)
+        self.assertIsNotNone(json_response_mock)
+        self.assertEqual(json_response, json_response_mock)
