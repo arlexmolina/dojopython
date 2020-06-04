@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "rentrooms-20192",
+  "private_key_id": "a555dad2d051003fb4dbf4021a2424305f9137eb",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDAwuwpYAu4/NKP\nTJXlFlbkXZroqJtJo8pHw6rBa3UaDJN10cBExWP/WWPRpUvNsjQ7f5cn47WtKtOk\no86iHJZpMSsIPEW1KY4PFi4oxfmXW+KqX5k0bJ1MzOBCIBYmo97RryzhgDVSp1EP\nyUTjgz6pTqYrnItNaOikX/tYTcXhZrg6k1IbAWFo8S6Kh/u4WbEQCAB2cJjh/CZO\nLf6qry/IaeoT6A23lv7EcbblhZtNz0A9aTont566lz35Ty56A5KE5Wnkz5Re22NX\nCiazjLYcGSaJsguZLSbA57Ck8CuWOIg97mwM/GPNqeqkSS+HGh2ouRBkAGUXMaPs\noQZQxdmhAgMBAAECggEABI3ous/Q1xbH1ahYkt829qRRP17bT9Y+tosSPndhEQ81\nAdszQwghwJCY1Cmm7LTPT/pH5v4V5F1gPwsoUtES9B9ORfn3ufLB08dszuoY1SOr\nWS9zC+55Bz/uPRQCbWZuopXvr2KNqR2PMXXco9Cf4fUJnOi+q4v5tpmozsFx8ZZd\nmSmglU2h+bRiUbAmxITJ7F2hAxs+g4RNBURlvCgz2VW2fDtYQFUzt6HEndRfwS0K\nDfEQc74KCyxDLoALzqyOsGfuAJ5mShbxR0011S+AUpC6vwHgemvnzlnHbpJx7kZU\nzJd5bgejxLH+Ux6sw7VesJ5CHB1QgcC2Yee/9HpvVQKBgQD1C3TXBpjna6yJ8ji/\nJFVbJ5gy5Aszc8vt+J9Af23jaqkMjpGABjWhpYZZ6vsX8iclEhzY+Dny5xrFkeE9\nu88iw3EFagIvT/0Sl7b3nV5z+SJfkovmRbuwv36kORK/hKHRC6TtY1tL/45xU5i4\n+1D0dMapKclesqR2WGzAeHqxewKBgQDJYRT7IGr1JpyeHJDSCvY1pK29J1CmtDlX\npx0dQm9geJvup0I1gf9o7w8grTE7wCPODuOvWOIz84JpKYL1CmKA1n2nfSsmxCwZ\n0VwExJIyxgpgUOoA/60VXSRa2Ohqgky7AwFKK4Tg9Hq5QVBU5bPWqJVME1DtFhoi\nTidaYPrQkwKBgQDA6VYAehciCSh6KRD3mZkA/Djbx5/xz7W6EML+udM++BdB5XMy\ngLD0IyWT4GPwxBiBHLNNNI4aZkozQ9c5DIPTcF2nz38M1EH9wyat5VwYnQesiehN\nTpSmXvtKOgxCbh4ePraGlHOpbvUqzo8rAd8HtG85ecYoISdMa+yh0bd1xQKBgC+w\nbeeKpcmoey52VVVogyXw+bPxu4e+5lV7nclwEjAmX8cElQlW38VZ15tFaINd3RzP\nKdw8kFT9NcTxr7GX4/vez6L6YV2s10TF76SxaG3duFdW0hOqeLK2fAWHmIKgmMsw\nyv1lkPI081srvHpea1hKVBDQAjojIc099NPSY5NBAoGBAI1ukm1pvvATgOQbgayA\nGkSkZBL2rYZDvkPJfxebcHqtD/qp7mHj3jhg+R/yAKeJsuoJEWTjpJ8paGReT8Yp\nn/zCwpHIqVa0LyH0JhmTbjyx2rAiphVhLZiPBAGssLe9RtLxuklneHIrfwVSh19P\nV2iK3WKw4Lg2n+IkOQyI4Y5J\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-ouoe9@rentrooms-20192.iam.gserviceaccount.com",
+  "client_id": "102586915582349630775",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-ouoe9%40rentrooms-20192.iam.gserviceaccount.com"
+}

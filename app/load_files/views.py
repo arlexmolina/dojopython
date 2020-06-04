@@ -17,6 +17,7 @@ from .forms import UploadForm
 from .. import db
 from .. import email_utils
 import json
+from firebase_admin import auth
 
 engine = create_engine(instance_config.SQLALCHEMY_DATABASE_URI, pool_recycle=3600)
 select_propiedad = 'SELECT *, PROPIEDAD.idAgencia as agencia FROM innodb.PROPIEDAD  inner join innodb.CIUDADES on ' \
@@ -64,7 +65,6 @@ def test(numero):
 @load_files.route('/<id>', methods=['GET'])
 @cross_origin() # allow all origins all methods.
 def rooms(id):
-
     propiedades = pd.read_sql(select_propiedad, con=db.engine, params={'id':id})
     fotos = pd.read_sql("FOTO", con=engine)
     servicios = pd.read_sql("SERVICIOS", con=engine)
@@ -107,7 +107,18 @@ def rooms(id):
 @load_files.route('/booking/<user_id>', methods=['GET'])
 @cross_origin() # allow all origins all methods.
 def reserves(user_id):
-
+    try:
+        try:
+            token = request.headers['authtoken']
+        except Exception as e:
+            token = request.headers['Authtoken']
+        decoded_token = auth.verify_id_token(token)
+        uid = decoded_token['uid']
+    except Exception as e:
+        print('********************* error')
+        print(e)
+        r = make_response(jsonify(error="authorization required"))
+        return r
     propiedades = pd.read_sql(select_reservas, con=db.engine, params={'email':user_id})
     filtro = []
     now = datetime.now()
@@ -146,6 +157,18 @@ def reserves(user_id):
 @load_files.route('/booking', methods=['POST'])
 @cross_origin() # allow all origins all methods.
 def booking():
+    try:
+        try:
+            token = request.headers['authtoken']
+        except Exception as e:
+            token = request.headers['Authtoken']
+        decoded_token = auth.verify_id_token(token)
+        uid = decoded_token['uid']
+    except Exception as e:
+        print('********************* error')
+        print(e)
+        r = make_response(jsonify(error="authorization required"))
+        return r
     try:
         content = request.json
         checkin = content['checkin']
