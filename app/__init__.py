@@ -23,17 +23,13 @@ mail = Mail()
 # permite cambiar la configuracion facilmente. Dentro del metodo create_app se inicializan las extensiones,
 # por ejemplo, sqlalchemy como ORM y celery como scheduler de tareas en background.
 
-
 def create_app(config_name):
     """Create and configure an instance of the Flask application."""
     app = Flask(__name__, instance_relative_config=True)
     cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
-
     # cred = credentials.Certificate("/Users/user/Desktop/Dcoumentos_Mauricio/UdeA/semestre1/desarrollo_app_empresariales/dojo_python/pandas/app/rentrooms.json")
     # cred = credentials.Certificate("/home/ubuntu/pandas/dojopython/app/rentrooms.json")
     cred = credentials.Certificate("/home/rof/clone/app/rentrooms.json")
-
-
     default_app = firebase_admin.initialize_app(cred)
 
     config_name = 'development'
@@ -42,7 +38,6 @@ def create_app(config_name):
 
     db.init_app(app)
     mail.init_app(app)
-
     MyLogger().init_app(app)
 
     # En las siguientes lineas se registran los modelos creados y los diferentes modulos encargados de las
@@ -72,4 +67,3 @@ def create_app(config_name):
             return r
 
     return app
-
