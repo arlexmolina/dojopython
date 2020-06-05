@@ -54,6 +54,9 @@ def create_app(config_name):
     from .load_files import load_files as load_files_blueprint
     app.register_blueprint(load_files_blueprint)
 
+    from .reserve import reserve as reserve_blueprint
+    app.register_blueprint(reserve_blueprint)
+
     with app.app_context():
 
         @app.route('/no_data')
