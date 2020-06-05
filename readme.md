@@ -1,4 +1,7 @@
 # README #
+# Integracion continua
+Para la integracion continua se vinculó el repositorio con un nuevo proyecto en Codeship, Se intentó configurar el ambiente instalando
+flask, nodejs, pyenv, entre otras dependencias que se evidencian en este readme, y se utilizó el siguiente comando para probar los tests:
 
 # tests
 `python3 -m unittest discover`
