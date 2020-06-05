@@ -30,9 +30,9 @@ def create_app(config_name):
     cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
     # cred = credentials.Certificate("/Users/user/Desktop/Dcoumentos_Mauricio/UdeA/semestre1/desarrollo_app_empresariales/dojo_python/pandas/app/rentrooms.json")
-    cred = credentials.Certificate("/home/ubuntu/pandas/dojopython/app/rentrooms.json")
+    # cred = credentials.Certificate("/home/ubuntu/pandas/dojopython/app/rentrooms.json")
 
-    default_app = firebase_admin.initialize_app(cred)
+    # default_app = firebase_admin.initialize_app(cred)
 
     config_name = 'development'
     app.config.from_object(app_config[config_name])
